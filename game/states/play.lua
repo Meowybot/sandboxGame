@@ -1,5 +1,8 @@
-local function newCircleObject()
+local function newStaticObject()
 end
 
-local function newRectangleObject()
+local function newDynamicObject()
+end
+
+local function newCharacterObject()
 end
