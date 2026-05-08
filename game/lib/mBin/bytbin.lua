@@ -8,9 +8,11 @@ function bytbin.newWriter()
 end
 
 function Writer:writeU8(v)
+  self.bytes = self.bytes .. string.pack("B", v)
 end
 
 function Writer:writeU16(v)
+  self.bytes = self.bytes .. string.pack("<H", v)
 end
 
 function Writer:writeFloat(v)
@@ -34,9 +36,15 @@ function bytbin.newReader(bytes)
 end
 
 function Reader:readU8()
+  local v = string.unpack("B", self.bytes, self.pos)
+  self.pos = self.pos + 1
+  return v
 end
 
 function Reader:readU16()
+  local v = string.unpack("<H", self.bytes, self.pos)
+  self.pos = self.pos + 2
+  return v
 end
 
 function Reader:readFloat()
