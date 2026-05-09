@@ -72,6 +72,16 @@ function Reader:readString()
 end
 
 function Reader:readNibble()
+  if not self.nibblePending then
+    local x = string.unpack("B", self.bytes, self.pos)
+    self.pendingNibble = bit.band(x, 0xF)
+    self.nibblePending = true
+    self.pos = self.pos + 1
+    return bit.rshift(bit.band(x, 0xF0), 4)
+  else
+    self.nibblePending = false
+    return self.pendingNibble
+  end
 end
 
 return bytbin
