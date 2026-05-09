@@ -1,10 +1,21 @@
 local chunk = {}
 
-function chunk.new()
+function chunk.new(x, y)
     return {
-        x = 0,
-        y = 0,
+        x = x or 0,
+        y = y or 0,
         blocks = {}
+    }
+end
+
+function chunk.newBlock(mod, id, state)
+    return {
+        mod = mod or 0,
+        id = id or 0,
+        state = state or 0,
+        name = nil,
+        content = nil,
+        wire = nil
     }
 end
 
