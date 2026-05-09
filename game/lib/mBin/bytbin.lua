@@ -16,6 +16,7 @@ function Writer:writeU16(v)
 end
 
 function Writer:writeFloat(v)
+  self.bytes = self.bytes .. string.pack("f", v)
 end
 
 function Writer:writeString(s)
@@ -48,6 +49,9 @@ function Reader:readU16()
 end
 
 function Reader:readFloat()
+  local v = string.unpack("f", self.bytes, self.pos)
+  self.pos = self.pos + 4
+  return v
 end
 
 function Reader:readString()
