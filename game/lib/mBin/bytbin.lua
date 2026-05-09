@@ -35,7 +35,12 @@ function Writer:writeNibble(v)
 end
 
 function Writer:getBytes()
-  return self.bytes
+    if self.nibblePending then
+        -- flush the pending nibble as the high nibble, low nibble = 0
+        self.bytes = self.bytes .. string.pack("B", bit.lshift(self.pendingNibble, 4))
+        self.nibblePending = false
+    end
+    return self.bytes
 end
 
 local Reader = {}
