@@ -25,11 +25,11 @@ function Writer:writeString(s)
 end
 
 function Writer:writeNibble(v)
-  if not nibblePending then
-    pendingNibble = bit.band(v, 0xF)
-    nibblePending = true
+  if not self.nibblePending then
+    self.pendingNibble = bit.band(v, 0xF)
+    self.nibblePending = true
   else
-    self.bytes = self.bytes .. string.pack("B", bit.bor(bit.lshift(bit.band(v, 0xF), 4), pendingNibble))
+    self.bytes = self.bytes .. string.pack("B", bit.bor(bit.lshift(bit.band(v, 0xF), 4), self.pendingNibble))
   end
 end
 
