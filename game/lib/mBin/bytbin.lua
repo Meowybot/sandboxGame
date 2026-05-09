@@ -30,6 +30,7 @@ function Writer:writeNibble(v)
     self.nibblePending = true
   else
     self.bytes = self.bytes .. string.pack("B", bit.bor(bit.lshift(bit.band(v, 0xF), 4), self.pendingNibble))
+    self.nibblePending = false
   end
 end
 
