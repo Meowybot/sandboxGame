@@ -1,3 +1,5 @@
+local bit = require("bit")
+
 local bytbin = {}
 
 local Writer = {}
@@ -23,6 +25,12 @@ function Writer:writeString(s)
 end
 
 function Writer:writeNibble(v)
+  if not nibblePending then
+    pendingNibble = bit.band(v, 0xF)
+    nibblePending = true
+  else
+    self.bytes = self.bytes .. string.pack("B", bit.bor(bit.lshift(bit.band(v, 0xF), 4), pendingNibble))
+  end
 end
 
 function Writer:getBytes()
