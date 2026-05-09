@@ -22,6 +22,7 @@ function Writer:writeFloat(v)
 end
 
 function Writer:writeString(s)
+    self.bytes = self.bytes .. string.pack("s1", s)
 end
 
 function Writer:writeNibble(v)
@@ -36,7 +37,6 @@ end
 
 function Writer:getBytes()
     if self.nibblePending then
-        -- flush the pending nibble as the high nibble, low nibble = 0
         self.bytes = self.bytes .. string.pack("B", bit.lshift(self.pendingNibble, 4))
         self.nibblePending = false
     end
@@ -69,6 +69,9 @@ function Reader:readFloat()
 end
 
 function Reader:readString()
+    local v, newpos = string.unpack("s1", self.bytes, self.pos)
+    self.pos = newpos
+    return v
 end
 
 function Reader:readNibble()
